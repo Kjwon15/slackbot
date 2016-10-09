@@ -1,1 +1,1 @@
-robot: PYTHONBUFFERED=true python bot.py
+robot: python bot.py
