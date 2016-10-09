@@ -11,7 +11,9 @@ TOKENIZE_PATTERN = re.compile(r'```(.+?)```|"(.+?)"|(\S+)', re.U | re.S)
 
 
 def tokenize(message):
-    return list(filter(lambda x: x and x.strip(), TOKENIZE_PATTERN.split(message)))
+    return list(filter(
+        lambda x: x and x.strip(),
+        TOKENIZE_PATTERN.split(message)))
 
 
 def run_code(interpreter, code, stdin=None):
@@ -44,8 +46,9 @@ def run_code(interpreter, code, stdin=None):
     return stderr or stdout
 
 
-@respond_to('!python (.*)', re.S)
+@respond_to(r'^!python (?P<code>.*)', re.S)
 def python(message, arg):
+    '''Run python code.'''
     tokens = tokenize(arg)
     code = tokens[0]
     stdin = tokens[1] if len(tokens) > 1 else None
@@ -53,8 +56,10 @@ def python(message, arg):
     result = run_code('python', code, stdin=stdin)
     message.reply(result)
 
-@respond_to('!repl (.+?) (.*)', re.S)
+
+@respond_to(r'^!repl (?P<interpreter>.+?) (?P<code>.*)', re.S)
 def repl(message, interpreter, arg):
+    '''Run code with specific interpreter.'''
     tokens = tokenize(arg)
     code = tokens[0]
     stdin = tokens[1] if len(tokens) > 1 else None
