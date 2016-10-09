@@ -1,7 +1,7 @@
+from __future__ import unicode_literals
 import subprocess
 
 from slackbot.bot import respond_to
-
 import io
 import os
 import re
