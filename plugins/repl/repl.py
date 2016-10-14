@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 import subprocess
 
-from slackbot.bot import respond_to
+from slackbot.bot import listen_to, respond_to
 import io
 import os
 import re
@@ -46,6 +46,7 @@ def run_code(interpreter, code, stdin=None):
     return stderr or stdout
 
 
+@listen_to(r'^!python (?P<code>.*)', re.S)
 @respond_to(r'^!python (?P<code>.*)', re.S)
 def python(message, arg):
     '''Run python code.'''
@@ -57,6 +58,7 @@ def python(message, arg):
     message.reply(result)
 
 
+@listen_to(r'^!repl (?P<interpreter>.+?) (?P<code>.*)', re.S)
 @respond_to(r'^!repl (?P<interpreter>.+?) (?P<code>.*)', re.S)
 def repl(message, interpreter, arg):
     '''Run code with specific interpreter.'''
