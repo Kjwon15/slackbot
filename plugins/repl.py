@@ -1,19 +1,13 @@
 from __future__ import unicode_literals
 import subprocess
 
-from slackbot.bot import listen_to, respond_to
 import io
 import os
 import re
 from tempfile import NamedTemporaryFile
 
-TOKENIZE_PATTERN = re.compile(r'```(.+?)```|"(.+?)"|(\S+)', re.U | re.S)
-
-
-def tokenize(message):
-    return list(filter(
-        lambda x: x and x.strip(),
-        TOKENIZE_PATTERN.split(message)))
+from slackbot.bot import listen_to, respond_to
+from .util import tokenize
 
 
 def run_code(interpreter, code, stdin=None):
